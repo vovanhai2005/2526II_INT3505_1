@@ -17,7 +17,8 @@ def get_system_info():
 
 books_db = [
     {"id": 1, "title": "Clean Code", "author": "Robert C. Martin"},
-    {"id": 2, "title": "Designing Data-Intensive Applications", "author": "Martin Kleppmann"}
+    {"id": 2, "title": "Designing Data-Intensive Applications", "author": "Martin Kleppmann"},
+    {"id": 3, "title": "The Pragmatic Programmer", "author": "Andrew Hunt and David Thomas"}
 ]
 
 @app.route('/api/books', methods=['GET'])
@@ -40,6 +41,26 @@ def delete_book(book_id):
     global books_db
     books_db = [b for b in books_db if b['id'] != book_id]
     return '', 204
+
+# Demo Stateless Constraint
+
+VALID_TOKENS = {
+    "valid-token-admin": "admin",
+    "valid-token-guest": "guest"
+}
+
+@app.route('/api/my-profile', methods=['GET'])
+def get_profile():
+    token = request.headers.get('Authorization')
+    
+    if not token or token not in VALID_TOKENS:
+        return jsonify({"error": "Unauthorized. Please provide a valid token."}), 401
+        
+    user_name = VALID_TOKENS[token]
+    return jsonify({
+        "message": f"Hello {user_name}!",
+        "role": "Admin" if "admin" in token else "Guest"
+    }), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
