@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request
+import time
+from flask import Flask, jsonify, request, make_response
 
 app = Flask(__name__)
 
@@ -61,6 +62,21 @@ def get_profile():
         "message": f"Hello {user_name}!",
         "role": "Admin" if "admin" in token else "Guest"
     }), 200
+
+# --- Demo Cacheable Constraint ---
+
+@app.route('/api/config', methods=['GET'])
+def get_config():
+    data = {
+        "theme": "dark",
+        "version": "1.0.0",
+        "server_time": time.time()
+    }
+    
+    response = make_response(jsonify(data))
+    response.headers['Cache-Control'] = 'public, max-age=30'
+    
+    return response, 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
