@@ -111,3 +111,42 @@ def get_products_right():
             {"id": 101, "name": "Laptop"}
         ]
     }), 200
+    
+# ==========================================
+# Demo Extensibility
+# ==========================================
+
+# WRONG case: 
+# Returning a top-level JSON array.
+# If we need to add pagination or total counts later, we have to change 
+# the root structure from an Array to an Object, which will break all existing clients.
+
+@app.route('/api/v1/articles-wrong', methods=['GET'])
+def get_articles_wrong():
+    return jsonify([
+        {"id": 1, "title": "API Design Principles"},
+        {"id": 2, "title": "RESTful Basics"}
+    ]), 200
+
+
+# CORRECT case:
+# Wrapping data in an Object (Data Wrapping).
+# We can easily add "metadata", "pagination", or "summary" alongside "data" 
+# without breaking the existing Frontend code that reads from "data".
+
+@app.route('/api/v1/articles', methods=['GET'])
+def get_articles_right():
+    return jsonify({
+        "status": "success",
+        "data": [
+            {"id": 1, "title": "API Design Principles"},
+            {"id": 2, "title": "RESTful Basics"}
+        ],
+        "meta": {
+            "pagination": {
+                "current_page": 1,
+                "limit": 10,
+                "total_records": 2
+            }
+        }
+    }), 200
