@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flasgger import Swagger
 
 app = Flask(__name__)
+
 app.config ['SWAGGER'] = {
     'openapi': '3.0.0'
 }

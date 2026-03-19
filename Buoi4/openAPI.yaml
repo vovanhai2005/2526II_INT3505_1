@@ -21,6 +21,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+    post:
+      summary: Add a new book
+      operationId: add_book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewBook'
+      responses:
+        '201':
+          description: Book created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Missing title or author
 
   /api/books/{book_id}:
     get:
@@ -42,26 +60,6 @@ paths:
                 $ref: '#/components/schemas/Book'
         '404':
           description: Book not found
-  /api/books:
-    post:
-      summary: Add a new book
-      operationId: add_book
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewBook'
-      responses:
-        '201':
-          description: Book created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-        '400':
-          description: Missing title or author
-  /api/books/{book_id}:
     put:
       summary: Update an existing book
       operationId: update_book
