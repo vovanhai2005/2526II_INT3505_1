@@ -1,0 +1,80 @@
+FORMAT: 1A
+HOST: http://127.0.0.1:5000
+
+# Book Management API
+
+A simple API to manage a collection of books, for SOA courses demo.
+
+## Group Books
+
+### Books Collection [/api/books]
+
+#### Get all books [GET]
+Get all books.
+
++ Response 200 (application/json)
+    + Attributes (array[Book])
+
+#### Add a new book [POST]
+Add a new book.
+
++ Request (application/json)
+    + Attributes (NewBook)
+
++ Response 201 (application/json)
+    Book created successfully.
+    + Attributes (Book)
+
++ Response 400 (text/plain)
+    Missing title or author.
+
+### Single Book [/api/books/{book_id}]
+
++ Parameters
+    + book_id: 1 (number, required) - ID of the book to retrieve, update, or delete.
+
+#### Get a book by its ID [GET]
+Get a book by its ID.
+
++ Response 200 (application/json)
+    The requested book.
+    + Attributes (Book)
+
++ Response 404 (text/plain)
+    Book not found.
+
+#### Update an existing book [PUT]
+Update an existing book.
+
++ Request (application/json)
+    + Attributes (NewBook)
+
++ Response 200 (application/json)
+    Book updated successfully.
+    + Attributes (Book)
+
++ Response 400 (text/plain)
+    Missing title or author.
+
++ Response 404 (text/plain)
+    Book not found.
+
+#### Delete a book [DELETE]
+Delete a book.
+
++ Response 204
+    Book deleted successfully.
+
++ Response 404 (text/plain)
+    Book not found.
+
+# Data Structures
+
+## Book (object)
++ id: 1 (number, required) - The unique identifier of the book.
++ title: `Clean Code` (string, required) - The title of the book.
++ author: `Robert C. Martin` (string, required) - The author of the book.
+
+## NewBook (object)
++ title: `Clean Code` (string, required) - The title of the book.
++ author: `Robert C. Martin` (string, required) - The author of the book.

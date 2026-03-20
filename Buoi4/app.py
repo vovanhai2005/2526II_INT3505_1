@@ -1,12 +1,17 @@
 from flask import Flask, jsonify, request
 from flasgger import Swagger
+import os
 
 app = Flask(__name__)
 
 app.config ['SWAGGER'] = {
     'openapi': '3.0.0'
 }
-swagger = Swagger(app, template_file='openAPI.yaml')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+YAML_PATH = os.path.join(BASE_DIR, 'folder-openapi-comparison', 'openapi', 'openAPI.yaml')
+
+swagger = Swagger(app, template_file=YAML_PATH)
 
 books_db = [
     {"id": 1, "title": "Clean Code", "author": "Robert C. Martin"},

@@ -1,0 +1,84 @@
+#%RAML 1.0
+title: Book Management API
+description: A simple API to manage a collection of books, for SOA courses demo.
+version: 1.0.0
+baseUri: http://127.0.0.1:5000
+
+types:
+  Book:
+    type: object
+    properties:
+      id: 
+        type: integer
+        description: The unique identifier of the book.
+      title: 
+        type: string
+        description: The title of the book.
+      author: 
+        type: string
+        description: The author of the book.
+  NewBook:
+    type: object
+    properties:
+      title: string
+      author: string
+
+/api/books:
+  get:
+    description: Get all books
+    responses:
+      200:
+        body:
+          application/json:
+            type: Book[]
+  post:
+    description: Add a new book
+    body:
+      application/json:
+        type: NewBook
+    responses:
+      201:
+        description: Book created successfully
+        body:
+          application/json:
+            type: Book
+      400:
+        description: Missing title or author
+
+  # Lồng đường dẫn con vào đường dẫn cha
+  /{book_id}:
+    uriParameters:
+      book_id:
+        type: integer
+        description: ID of the book to retrieve, update, or delete
+    get:
+      description: Get a book by its ID
+      responses:
+        200:
+          body:
+            application/json:
+              type: Book
+        404:
+          description: Book not found
+    put:
+      description: Update an existing book
+      body:
+        application/json:
+          type: NewBook
+      responses:
+        200:
+          description: Book updated successfully
+          body:
+            application/json:
+              type: Book
+        400:
+          description: Missing title or author
+        404:
+          description: Book not found
+    delete:
+      description: Delete a book
+      responses:
+        204:
+          description: Book deleted successfully
+        404:
+          description: Book not found
