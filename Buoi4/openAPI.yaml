@@ -6,6 +6,7 @@ info:
 servers:
   - url: http://127.0.0.1:5000
     description: Development server
+  
 
 paths:
   /api/books:
@@ -20,7 +21,9 @@ paths:
               schema:
                 type: array
                 items:
+
                   $ref: '#/components/schemas/Book'
+
     post:
       summary: Add a new book
       operationId: add_book

@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  description: "A simple API to manage a collection of books, for SOA courses demo."
+  title: Book Management API
+  version: 1.0.0
+servers:
+- description: Development server
+  url: http://127.0.0.1:5000
+paths:
+  /api/books:
+    get:
+      operationId: get_books
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Book"
+                type: array
+          description: A list of books
+      summary: Get all books
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+    post:
+      operationId: add_book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewBook"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+          description: Book created successfully
+        "400":
+          description: Missing title or author
+      summary: Add a new book
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /api/books/{book_id}:
+    delete:
+      operationId: delete_book
+      parameters:
+      - description: ID of the book to delete
+        explode: false
+        in: path
+        name: book_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Book deleted successfully
+        "404":
+          description: Book not found
+      summary: Delete a book
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+    get:
+      operationId: get_book_by_id
+      parameters:
+      - description: ID of the book to retrieve
+        explode: false
+        in: path
+        name: book_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+          description: The requested book
+        "404":
+          description: Book not found
+      summary: Get a book by its ID
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+    put:
+      operationId: update_book
+      parameters:
+      - description: ID of the book to update
+        explode: false
+        in: path
+        name: book_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewBook"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+          description: Book updated successfully
+        "400":
+          description: Missing title or author
+        "404":
+          description: Book not found
+      summary: Update an existing book
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  schemas:
+    Book:
+      example:
+        author: author
+        id: 0
+        title: title
+      properties:
+        id:
+          description: The unique identifier of the book.
+          title: id
+          type: integer
+        title:
+          description: The title of the book.
+          title: title
+          type: string
+        author:
+          description: The author of the book.
+          title: author
+          type: string
+      title: Book
+      type: object
+    NewBook:
+      example:
+        author: author
+        title: title
+      properties:
+        title:
+          description: The title of the book.
+          title: title
+          type: string
+        author:
+          description: The author of the book.
+          title: author
+          type: string
+      required:
+      - author
+      - title
+      title: NewBook
+      type: object
