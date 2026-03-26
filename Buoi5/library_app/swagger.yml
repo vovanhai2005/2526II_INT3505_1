@@ -1,0 +1,460 @@
+openapi: 3.0.3
+info:
+  title: Library Management API
+  description: A simple Flask-based Library Management REST API for managing users, books, and loans.
+  version: "1.0.0"
+  contact:
+    name: API Support
+
+servers:
+  - url: http://127.0.0.1:8080
+    description: Local development server
+
+tags:
+  - name: Users
+    description: User management operations
+  - name: Books
+    description: Book management operations
+  - name: Loans
+    description: Loan (borrow / return) operations
+
+paths:
+  # ── Users ──────────────────────────────────────────────────────────────
+  /api/users:
+    get:
+      tags: [Users]
+      summary: List all users
+      operationId: getUsers
+      responses:
+        "200":
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      tags: [Users]
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreate"
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Missing or invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/users/{user_id}:
+    parameters:
+      - $ref: "#/components/parameters/userId"
+    get:
+      tags: [Users]
+      summary: Get a user by ID
+      operationId: getUser
+      responses:
+        "200":
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+    put:
+      tags: [Users]
+      summary: Update a user
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreate"
+      responses:
+        "200":
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+        "409":
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags: [Users]
+      summary: Delete a user
+      operationId: deleteUser
+      responses:
+        "200":
+          description: User deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: User not found
+
+  # ── Books ──────────────────────────────────────────────────────────────
+  /api/books:
+    get:
+      tags: [Books]
+      summary: List all books
+      operationId: getBooks
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filter books by category (case-insensitive partial match)
+        - name: author
+          in: query
+          schema:
+            type: string
+          description: Filter books by author (case-insensitive partial match)
+      responses:
+        "200":
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+    post:
+      tags: [Books]
+      summary: Create a new book
+      operationId: createBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookCreate"
+      responses:
+        "201":
+          description: Book created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "400":
+          description: Missing or invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/books/{book_id}:
+    parameters:
+      - $ref: "#/components/parameters/bookId"
+    get:
+      tags: [Books]
+      summary: Get a book by ID
+      operationId: getBook
+      responses:
+        "200":
+          description: Book details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          description: Book not found
+    put:
+      tags: [Books]
+      summary: Update a book
+      operationId: updateBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookCreate"
+      responses:
+        "200":
+          description: Book updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          description: Book not found
+    delete:
+      tags: [Books]
+      summary: Delete a book
+      operationId: deleteBook
+      responses:
+        "200":
+          description: Book deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: Book not found
+
+  # ── Loans ──────────────────────────────────────────────────────────────
+  /api/loans:
+    get:
+      tags: [Loans]
+      summary: List all loans
+      operationId: getLoans
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: integer
+          description: Filter loans by user ID
+        - name: active
+          in: query
+          schema:
+            type: string
+            enum: ["true", "false"]
+          description: If "true", return only active (unreturned) loans
+      responses:
+        "200":
+          description: A list of loans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Loan"
+
+  /api/loans/{loan_id}:
+    parameters:
+      - $ref: "#/components/parameters/loanId"
+    get:
+      tags: [Loans]
+      summary: Get a loan by ID
+      operationId: getLoan
+      responses:
+        "200":
+          description: Loan details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Loan"
+        "404":
+          description: Loan not found
+
+  /api/loans/borrow:
+    post:
+      tags: [Loans]
+      summary: Borrow a book
+      operationId: borrowBook
+      description: Creates a new Loan record and decrements the book's available_copies.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BorrowRequest"
+      responses:
+        "201":
+          description: Loan created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Loan"
+        "400":
+          description: Missing fields or no copies available
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: User or book not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: User already has this book on loan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/loans/{loan_id}/return:
+    parameters:
+      - $ref: "#/components/parameters/loanId"
+    post:
+      tags: [Loans]
+      summary: Return a borrowed book
+      operationId: returnBook
+      description: Sets the return_date on the loan and increments the book's available_copies.
+      responses:
+        "200":
+          description: Book returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Loan"
+        "400":
+          description: Book has already been returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Loan not found
+
+# ── Reusable components ─────────────────────────────────────────────────
+components:
+  parameters:
+    userId:
+      name: user_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Unique user identifier
+    bookId:
+      name: book_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Unique book identifier
+    loanId:
+      name: loan_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Unique loan identifier
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Nguyen Van A"
+        email:
+          type: string
+          example: "nguyenvana@example.com"
+
+    UserCreate:
+      type: object
+      required: [name, email]
+      properties:
+        name:
+          type: string
+          example: "Nguyen Van A"
+        email:
+          type: string
+          example: "nguyenvana@example.com"
+
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Clean Code"
+        author:
+          type: string
+          example: "Robert C. Martin"
+        category:
+          type: string
+          example: "Software Engineering"
+        available_copies:
+          type: integer
+          example: 3
+
+    BookCreate:
+      type: object
+      required: [title, author, category]
+      properties:
+        title:
+          type: string
+          example: "Clean Code"
+        author:
+          type: string
+          example: "Robert C. Martin"
+        category:
+          type: string
+          example: "Software Engineering"
+        available_copies:
+          type: integer
+          example: 3
+          default: 1
+
+    Loan:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+          example: 1
+        book_id:
+          type: integer
+          example: 1
+        borrow_date:
+          type: string
+          format: date-time
+          example: "2026-03-26T04:00:00"
+        return_date:
+          type: string
+          format: date-time
+          nullable: true
+          example: null
+
+    BorrowRequest:
+      type: object
+      required: [user_id, book_id]
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        book_id:
+          type: integer
+          example: 1
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Descriptive error message"
+
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Operation successful"
