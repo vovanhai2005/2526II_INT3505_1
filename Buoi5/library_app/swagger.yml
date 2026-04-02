@@ -25,15 +25,16 @@ paths:
       tags: [Users]
       summary: List all users
       operationId: getUsers
+      parameters:
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/offsetParam"
       responses:
         "200":
-          description: A list of users
+          description: A paginated list of users
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/PaginatedUsers"
     post:
       tags: [Users]
       summary: Create a new user
@@ -136,15 +137,15 @@ paths:
           schema:
             type: string
           description: Filter books by author (case-insensitive partial match)
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/offsetParam"
       responses:
         "200":
-          description: A list of books
+          description: A paginated list of books
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Book"
+                $ref: "#/components/schemas/PaginatedBooks"
     post:
       tags: [Books]
       summary: Create a new book
@@ -236,15 +237,15 @@ paths:
             type: string
             enum: ["true", "false"]
           description: If "true", return only active (unreturned) loans
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/offsetParam"
       responses:
         "200":
-          description: A list of loans
+          description: A paginated list of loans
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Loan"
+                $ref: "#/components/schemas/PaginatedLoans"
 
   /api/loans/{loan_id}:
     parameters:
@@ -349,8 +350,64 @@ components:
       schema:
         type: integer
       description: Unique loan identifier
+    limitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 10
+      description: Number of items to return
+    offsetParam:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        default: 0
+      description: Number of items to skip
 
   schemas:
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 100
+        limit:
+          type: integer
+          example: 10
+        offset:
+          type: integer
+          example: 0
+
+    PaginatedUsers:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    PaginatedBooks:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Book"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    PaginatedLoans:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Loan"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
     User:
       type: object
       properties:

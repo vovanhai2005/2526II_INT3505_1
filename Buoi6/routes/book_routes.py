@@ -1,17 +1,16 @@
 from flask import Blueprint, jsonify, request
-
 from models import Book, db
+from utils.jwt import require_jwt
 
 book_bp = Blueprint("book_bp", __name__, url_prefix="/api/books")
 
 
 @book_bp.route("", methods=["GET"])
-def get_books():
+@require_jwt()
+def get_books(claims):
     """List all books, with optional filtering by category or author."""
     category = request.args.get("category")
     author = request.args.get("author")
-    limit = int(request.args.get("limit", 10))
-    offset = int(request.args.get("offset", 0))
 
     query = Book.query
     if category:
@@ -19,28 +18,21 @@ def get_books():
     if author:
         query = query.filter(Book.author.ilike(f"%{author}%"))
 
-    total = query.count()
-    books = query.offset(offset).limit(limit).all()
-
-    return jsonify({
-        "data": [b.validate_response() for b in books],
-        "pagination": {
-            "total": total,
-            "limit": limit,
-            "offset": offset
-        }
-    }), 200
+    books = query.all()
+    return jsonify([b.validate_response() for b in books]), 200
 
 
 @book_bp.route("/<int:book_id>", methods=["GET"])
-def get_book(book_id):
+@require_jwt()
+def get_book(claims, book_id):
     """Get a single book by ID."""
     book = Book.query.get_or_404(book_id, description="Book not found")
     return jsonify(book.validate_response()), 200
 
 
 @book_bp.route("", methods=["POST"])
-def create_book():
+@require_jwt()
+def create_book(claims):
     """Create a new book."""
     data = request.get_json()
     if not data:
@@ -63,7 +55,8 @@ def create_book():
 
 
 @book_bp.route("/<int:book_id>", methods=["PUT"])
-def update_book(book_id):
+@require_jwt()
+def update_book(claims, book_id):
     """Update an existing book."""
     book = Book.query.get_or_404(book_id, description="Book not found")
     data = request.get_json()
@@ -79,7 +72,8 @@ def update_book(book_id):
 
 
 @book_bp.route("/<int:book_id>", methods=["DELETE"])
-def delete_book(book_id):
+@require_jwt()
+def delete_book(claims, book_id):
     """Delete a book."""
     book = Book.query.get_or_404(book_id, description="Book not found")
     db.session.delete(book)

@@ -1,32 +1,35 @@
 from flask import Blueprint, jsonify, request
-
 from models import User, db
+from utils.jwt import require_jwt, create_access_token
 
 user_bp = Blueprint("user_bp", __name__, url_prefix="/api/users")
 
 
+@user_bp.route("/login", methods=["POST"])
+def login():
+    """Login endpoint to retrieve a JWT token."""
+    data = request.get_json()
+    if not data or "email" not in data:
+        return jsonify({"error": "Missing email"}), 400
+    user = User.query.filter_by(email=data["email"]).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+        
+    token = create_access_token(user.id, "user")
+    return jsonify({"token": token}), 200
+
+
 @user_bp.route("", methods=["GET"])
-def get_users():
+@require_jwt()
+def get_users(claims):
     """List all users."""
-    limit = int(request.args.get("limit", 10))
-    offset = int(request.args.get("offset", 0))
-
-    query = User.query
-    total = query.count()
-    users = query.offset(offset).limit(limit).all()
-
-    return jsonify({
-        "data": [u.validate_response() for u in users],
-        "pagination": {
-            "total": total,
-            "limit": limit,
-            "offset": offset
-        }
-    }), 200
+    users = User.query.all()
+    return jsonify([u.validate_response() for u in users]), 200
 
 
 @user_bp.route("/<int:user_id>", methods=["GET"])
-def get_user(user_id):
+@require_jwt()
+def get_user(claims, user_id):
     """Get a single user by ID."""
     user = User.query.get_or_404(user_id, description="User not found")
     return jsonify(user.validate_response()), 200
@@ -34,7 +37,7 @@ def get_user(user_id):
 
 @user_bp.route("", methods=["POST"])
 def create_user():
-    """Create a new user."""
+    """Create a new user. (No JWT required to sign up)"""
     data = request.get_json()
     if not data:
         return jsonify({"error": "Request body must be JSON"}), 400
@@ -54,7 +57,8 @@ def create_user():
 
 
 @user_bp.route("/<int:user_id>", methods=["PUT"])
-def update_user(user_id):
+@require_jwt()
+def update_user(claims, user_id):
     """Update an existing user."""
     user = User.query.get_or_404(user_id, description="User not found")
     data = request.get_json()
@@ -72,7 +76,8 @@ def update_user(user_id):
 
 
 @user_bp.route("/<int:user_id>", methods=["DELETE"])
-def delete_user(user_id):
+@require_jwt()
+def delete_user(claims, user_id):
     """Delete a user."""
     user = User.query.get_or_404(user_id, description="User not found")
     db.session.delete(user)

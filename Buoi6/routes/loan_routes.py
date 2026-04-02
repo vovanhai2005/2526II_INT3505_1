@@ -1,19 +1,17 @@
 from datetime import datetime, timezone
-
 from flask import Blueprint, jsonify, request
-
 from models import Book, Loan, User, db
+from utils.jwt import require_jwt
 
 loan_bp = Blueprint("loan_bp", __name__, url_prefix="/api/loans")
 
 
 @loan_bp.route("", methods=["GET"])
-def get_loans():
+@require_jwt()
+def get_loans(claims):
     """List all loans. Optionally filter by user_id or active-only."""
     user_id = request.args.get("user_id", type=int)
     active_only = request.args.get("active", "").lower() == "true"
-    limit = int(request.args.get("limit", 10))
-    offset = int(request.args.get("offset", 0))
 
     query = Loan.query
     if user_id:
@@ -21,28 +19,21 @@ def get_loans():
     if active_only:
         query = query.filter(Loan.return_date.is_(None))
 
-    total = query.count()
-    loans = query.offset(offset).limit(limit).all()
-
-    return jsonify({
-        "data": [l.validate_response() for l in loans],
-        "pagination": {
-            "total": total,
-            "limit": limit,
-            "offset": offset
-        }
-    }), 200
+    loans = query.all()
+    return jsonify([l.validate_response() for l in loans]), 200
 
 
 @loan_bp.route("/<int:loan_id>", methods=["GET"])
-def get_loan(loan_id):
+@require_jwt()
+def get_loan(claims, loan_id):
     """Get a single loan by ID."""
     loan = Loan.query.get_or_404(loan_id, description="Loan not found")
     return jsonify(loan.validate_response()), 200
 
 
 @loan_bp.route("/borrow", methods=["POST"])
-def borrow_book():
+@require_jwt()
+def borrow_book(claims):
     """Borrow a book: creates a Loan record and decrements available_copies."""
     data = request.get_json()
     if not data:
@@ -64,7 +55,6 @@ def borrow_book():
     if book.available_copies < 1:
         return jsonify({"error": "No copies available"}), 400
 
-    # Check if user already has an active loan for this book
     existing = Loan.query.filter_by(
         user_id=user.id, book_id=book.id, return_date=None
     ).first()
@@ -80,7 +70,8 @@ def borrow_book():
 
 
 @loan_bp.route("/<int:loan_id>/return", methods=["POST"])
-def return_book(loan_id):
+@require_jwt()
+def return_book(claims, loan_id):
     """Return a borrowed book: sets return_date and increments available_copies."""
     loan = Loan.query.get_or_404(loan_id, description="Loan not found")
 
