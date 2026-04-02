@@ -12,7 +12,7 @@ def create_access_token(sub: str, role: str):
         "sub": str(sub),
         "role": role,
         "iat": now,
-        "exp": now + datetime.timedelta(minutes=30)
+        "exp": now + datetime.timedelta(minutes=15)
     }
 
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
