@@ -36,7 +36,7 @@ sudo pip install tox
 tox
 ```
 
-## Running with Docker
+## Running with DockerS
 
 To run the server on a Docker container, please execute the following from the root directory:
 
