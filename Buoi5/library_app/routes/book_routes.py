@@ -11,7 +11,7 @@ def get_books():
     category = request.args.get("category")
     author = request.args.get("author")
     limit = int(request.args.get("limit", 10))
-    offset = int(request.args.get("offset", 0))
+    pagination_type = request.args.get("pagination_type", "offset") # offset, page, cursor
 
     query = Book.query
     if category:
@@ -19,17 +19,53 @@ def get_books():
     if author:
         query = query.filter(Book.author.ilike(f"%{author}%"))
 
-    total = query.count()
-    books = query.offset(offset).limit(limit).all()
+    if pagination_type == "offset":
+        offset = int(request.args.get("offset", 0))
+        total = query.count()
+        books = query.offset(offset).limit(limit).all()
+        return jsonify({
+            "data": [b.validate_response() for b in books],
+            "pagination": {
+                "total": total,
+                "limit": limit,
+                "offset": offset,
+                "type": "offset"
+            }
+        }), 200
 
-    return jsonify({
-        "data": [b.validate_response() for b in books],
-        "pagination": {
-            "total": total,
-            "limit": limit,
-            "offset": offset
-        }
-    }), 200
+    elif pagination_type == "page":
+        page = int(request.args.get("page", 1))
+        offset = (page - 1) * limit
+        total = query.count()
+        books = query.offset(offset).limit(limit).all()
+        return jsonify({
+            "data": [b.validate_response() for b in books],
+            "pagination": {
+                "total": total,
+                "limit": limit,
+                "page": page,
+                "type": "page"
+            }
+        }), 200
+
+    elif pagination_type == "cursor":
+        cursor = request.args.get("cursor") # Use the id of the last seen item
+        if cursor:
+            query = query.filter(Book.id > int(cursor))
+        
+        books = query.order_by(Book.id.asc()).limit(limit).all()
+        next_cursor = books[-1].id if books else None
+        
+        return jsonify({
+            "data": [b.validate_response() for b in books],
+            "pagination": {
+                "limit": limit,
+                "next_cursor": next_cursor,
+                "type": "cursor"
+            }
+        }), 200
+
+    return jsonify({"error": "Invalid pagination type"}), 400
 
 
 @book_bp.route("/<int:book_id>", methods=["GET"])
