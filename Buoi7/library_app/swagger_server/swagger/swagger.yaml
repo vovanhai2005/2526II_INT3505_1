@@ -1,0 +1,470 @@
+openapi: 3.0.3
+info:
+  title: Library Management API (Buoi7)
+  description: "A Library Management REST API with User, Book, and Loan modules."
+  version: 1.0.0
+servers:
+- url: http://127.0.0.1:8081
+  description: Local development server
+paths:
+  /api/users:
+    get:
+      tags:
+      - Users
+      summary: List all users
+      operationId: get_users
+      responses:
+        "200":
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.users_controller
+    post:
+      tags:
+      - Users
+      summary: Create a new user
+      operationId: create_user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Missing fields
+        "409":
+          description: Email exists
+      x-openapi-router-controller: swagger_server.controllers.users_controller
+  /api/users/{user_id}:
+    get:
+      tags:
+      - Users
+      summary: Get a user by ID
+      operationId: get_user
+      parameters:
+      - name: user_id
+        in: path
+        description: Unique user identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: User not found
+      x-openapi-router-controller: swagger_server.controllers.users_controller
+    put:
+      tags:
+      - Users
+      summary: Update a user
+      operationId: update_user
+      parameters:
+      - name: user_id
+        in: path
+        description: Unique user identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      responses:
+        "200":
+          description: User updated
+      x-openapi-router-controller: swagger_server.controllers.users_controller
+    delete:
+      tags:
+      - Users
+      summary: Delete a user
+      operationId: delete_user
+      parameters:
+      - name: user_id
+        in: path
+        description: Unique user identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: User deleted
+      x-openapi-router-controller: swagger_server.controllers.users_controller
+  /api/books:
+    get:
+      tags:
+      - Books
+      summary: List all books
+      operationId: get_books
+      parameters:
+      - name: category
+        in: query
+        description: Filter by category
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: author
+        in: query
+        description: Filter by author
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.books_controller
+    post:
+      tags:
+      - Books
+      summary: Create a new book
+      operationId: create_book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreate'
+        required: true
+      responses:
+        "201":
+          description: Book created
+      x-openapi-router-controller: swagger_server.controllers.books_controller
+  /api/books/{book_id}:
+    get:
+      tags:
+      - Books
+      summary: Get book by ID
+      operationId: api_books_book_id_get
+      parameters:
+      - name: book_id
+        in: path
+        description: Unique book identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Book details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+      x-openapi-router-controller: swagger_server.controllers.books_controller
+    put:
+      tags:
+      - Books
+      summary: Update a book
+      operationId: api_books_book_id_put
+      parameters:
+      - name: book_id
+        in: path
+        description: Unique book identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreate'
+        required: true
+      responses:
+        "200":
+          description: Updated book
+      x-openapi-router-controller: swagger_server.controllers.books_controller
+    delete:
+      tags:
+      - Books
+      summary: Delete a book
+      operationId: api_books_book_id_delete
+      parameters:
+      - name: book_id
+        in: path
+        description: Unique book identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Book deleted
+      x-openapi-router-controller: swagger_server.controllers.books_controller
+  /api/loans:
+    get:
+      tags:
+      - Loans
+      summary: List all loans
+      operationId: api_loans_get
+      parameters:
+      - name: user_id
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: active
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - "true"
+          - "false"
+      responses:
+        "200":
+          description: List of loans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.loans_controller
+  /api/loans/{loan_id}:
+    get:
+      tags:
+      - Loans
+      summary: Get loan by ID
+      operationId: api_loans_loan_id_get
+      parameters:
+      - name: loan_id
+        in: path
+        description: Unique loan identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Loan details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Loan'
+      x-openapi-router-controller: swagger_server.controllers.loans_controller
+  /api/loans/borrow:
+    post:
+      tags:
+      - Loans
+      summary: Borrow a book
+      operationId: api_loans_borrow_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BorrowRequest'
+        required: true
+      responses:
+        "201":
+          description: Loan created
+      x-openapi-router-controller: swagger_server.controllers.loans_controller
+  /api/loans/{loan_id}/return:
+    post:
+      tags:
+      - Loans
+      summary: Return a book
+      operationId: api_loans_loan_id_return_post
+      parameters:
+      - name: loan_id
+        in: path
+        description: Unique loan identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Book returned
+      x-openapi-router-controller: swagger_server.controllers.loans_controller
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Nguyen Van A
+        email:
+          type: string
+          example: nguyenvana@example.com
+      example:
+        name: Nguyen Van A
+        id: 1
+        email: nguyenvana@example.com
+    UserCreate:
+      required:
+      - email
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          example: Nguyen Van A
+        email:
+          type: string
+          example: nguyenvana@example.com
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Clean Code
+        author:
+          type: string
+          example: Robert C. Martin
+        category:
+          type: string
+          example: Software Engineering
+        available_copies:
+          type: integer
+          example: 3
+      example:
+        available_copies: 3
+        author: Robert C. Martin
+        id: 1
+        title: Clean Code
+        category: Software Engineering
+    BookCreate:
+      required:
+      - author
+      - category
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+          example: Clean Code
+        author:
+          type: string
+          example: Robert C. Martin
+        category:
+          type: string
+          example: Software Engineering
+        available_copies:
+          type: integer
+          example: 3
+          default: 1
+    Loan:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+          example: 1
+        book_id:
+          type: integer
+          example: 1
+        borrow_date:
+          type: string
+          format: date-time
+        return_date:
+          type: string
+          format: date-time
+          nullable: true
+          example: null
+      example:
+        user_id: 1
+        borrow_date: 2000-01-23T04:56:07.000+00:00
+        id: 1
+        book_id: 1
+        return_date: 2000-01-23T04:56:07.000+00:00
+    BorrowRequest:
+      required:
+      - book_id
+      - user_id
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        book_id:
+          type: integer
+          example: 1
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Error message
+  parameters:
+    userId:
+      name: user_id
+      in: path
+      description: Unique user identifier
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: integer
+    bookId:
+      name: book_id
+      in: path
+      description: Unique book identifier
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: integer
+    loanId:
+      name: loan_id
+      in: path
+      description: Unique loan identifier
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: integer
+
