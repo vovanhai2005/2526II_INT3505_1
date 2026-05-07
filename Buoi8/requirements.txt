@@ -1,0 +1,5 @@
+flask==2.3.3
+flask-sqlalchemy==3.0.5
+flasgger==0.9.7.1
+pytest==7.4.0
+locust==2.15.1
