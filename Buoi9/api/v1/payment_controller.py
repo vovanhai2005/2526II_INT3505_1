@@ -12,7 +12,7 @@ def create_payment_v1():
     ---
     deprecated: true
     """
-    logging.warning("API v1 /api/v1/payments dang duoc goi se bi sunset vao 8/10/2026.")
+    logging.warning("API v1 /api/v1/payments dang duoc goi - se bi sunset vao 31/10/2026.")
     data = request.get_json()
 
     if not data or 'amount' not in data:
@@ -26,6 +26,6 @@ def create_payment_v1():
 
     response = make_response(jsonify(result_dict), status_code)
     response.headers['Deprecation'] = 'true'
-    response.headers['Sunset'] = 'Thurs, 8 Oct 2026 23:59:59 GMT'
+    response.headers['Sunset'] = 'Thu, 31 Oct 2026 23:59:59 GMT'
 
     return response
