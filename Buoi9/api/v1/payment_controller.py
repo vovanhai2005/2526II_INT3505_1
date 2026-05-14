@@ -12,7 +12,7 @@ def create_payment_v1():
     ---
     deprecated: true
     """
-    logging.warning("API v1 /api/v1/payments dang duoc goi - se bi sunset vao 31/10/2026.")
+    logging.warning("API v1 /api/v1/payments đang được gọi - sẽ bị sunset vào 31/10/2026.")
     data = request.get_json()
 
     if not data or 'amount' not in data:

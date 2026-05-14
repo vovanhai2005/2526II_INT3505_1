@@ -13,7 +13,7 @@ def create_payment_v2():
     if not data or 'amount' not in data or 'currency' not in data:
         error_response = payment_response(
             status="error", 
-            message="Thieu du lieu!"
+            message="Thiếu dữ liệu!"
         )
         return jsonify(error_response), 400
 
@@ -24,7 +24,7 @@ def create_payment_v2():
     if currency not in allowed_currencies:
         error_response = payment_response(
             status="error", 
-            message=f"{currency} chua duoc ho tro!"
+            message=f"{currency} chưa được hỗ trợ!"
         )
         return jsonify(error_response), 400
         
