@@ -1,0 +1,15 @@
+{
+  "venvPath": ".",
+  "venv": "venv",
+  "extraPaths": [
+    "Buoi2",
+    "Buoi3",
+    "Buoi4",
+    "Buoi5",
+    "Buoi6",
+    "Buoi7",
+    "Buoi8",
+    "Buoi9",
+    "Buoi10"
+  ]
+}
