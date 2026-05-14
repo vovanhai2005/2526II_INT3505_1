@@ -1,0 +1,165 @@
+[2026-05-14 14:52:01,986] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-14 14:52:01,986] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-14 14:52:01,987] INFO in app: Phản hồi: 200
+[2026-05-14 14:52:01,997] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 14:52:01,997] WARNING in routes: Truy cập vào API nhạy cảm!
+[2026-05-14 14:52:01,998] INFO in app: Phản hồi: 200
+[2026-05-14 15:27:25,490] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/ | IP: 127.0.0.1
+[2026-05-14 15:27:25,490] ERROR in app: Lỗi hệ thống không mong muốn: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1788, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1770, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/ctx.py", line 351, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/werkzeug/routing/map.py", line 624, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-05-14 15:27:25,491] INFO in app: Phản hồi: 500
+[2026-05-14 15:27:25,536] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/favicon.ico | IP: 127.0.0.1
+[2026-05-14 15:27:25,536] ERROR in app: Lỗi hệ thống không mong muốn: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1788, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1770, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/ctx.py", line 351, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/werkzeug/routing/map.py", line 624, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-05-14 15:27:25,537] INFO in app: Phản hồi: 500
+[2026-05-14 15:27:31,445] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/apidocs | IP: 127.0.0.1
+[2026-05-14 15:27:31,446] ERROR in app: Lỗi hệ thống không mong muốn: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1788, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1770, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/ctx.py", line 351, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/werkzeug/routing/map.py", line 624, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-05-14 15:27:31,447] INFO in app: Phản hồi: 500
+[2026-05-14 15:27:31,482] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/favicon.ico | IP: 127.0.0.1
+[2026-05-14 15:27:31,483] ERROR in app: Lỗi hệ thống không mong muốn: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1788, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1770, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/ctx.py", line 351, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/werkzeug/routing/map.py", line 624, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-05-14 15:27:31,484] INFO in app: Phản hồi: 500
+[2026-05-14 15:28:13,595] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-14 15:28:13,595] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-14 15:28:13,596] INFO in app: Phản hồi: 200
+[2026-05-14 15:28:39,541] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:39,542] WARNING in routes: Truy cập vào API nhạy cảm!
+[2026-05-14 15:28:39,542] INFO in app: Phản hồi: 200
+[2026-05-14 15:28:53,496] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:53,496] WARNING in routes: Truy cập vào API nhạy cảm!
+[2026-05-14 15:28:53,497] INFO in app: Phản hồi: 200
+[2026-05-14 15:28:54,292] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:54,293] WARNING in routes: Truy cập vào API nhạy cảm!
+[2026-05-14 15:28:54,293] INFO in app: Phản hồi: 200
+[2026-05-14 15:28:54,740] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:54,741] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:54,741] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:55,035] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:55,036] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:55,036] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:55,300] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:55,300] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:55,300] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:55,528] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:55,528] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:55,528] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:55,755] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:55,756] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:55,756] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:56,585] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:56,586] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:56,587] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:56,797] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:56,798] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:56,798] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:56,995] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:56,996] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:56,996] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:57,177] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:57,179] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:57,179] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:57,364] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:57,365] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:57,366] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:57,530] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:57,531] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:57,531] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:57,694] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:57,695] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:57,695] INFO in app: Phản hồi: 429
+[2026-05-14 15:28:57,845] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-14 15:28:57,845] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-14 15:28:57,846] INFO in app: Phản hồi: 429
+[2026-05-14 15:32:57,828] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/metrics | IP: 127.0.0.1
+[2026-05-14 15:32:57,828] ERROR in app: Lỗi hệ thống không mong muốn: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1788, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1770, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/ctx.py", line 351, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/werkzeug/routing/map.py", line 624, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-05-14 15:32:57,831] INFO in app: Phản hồi: 500
+[2026-05-14 15:32:57,884] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/favicon.ico | IP: 127.0.0.1
+[2026-05-14 15:32:57,885] ERROR in app: Lỗi hệ thống không mong muốn: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1788, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/app.py", line 1770, in raise_routing_exception
+    raise request.routing_exception  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/flask/ctx.py", line 351, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vohai/2526II_INT3505_1/venv/lib/python3.12/site-packages/werkzeug/routing/map.py", line 624, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2026-05-14 15:32:57,886] INFO in app: Phản hồi: 500
