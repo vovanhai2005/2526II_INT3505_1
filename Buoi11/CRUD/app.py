@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Giả lập Database trong RAM
 users = {}
 current_id = 1
 
