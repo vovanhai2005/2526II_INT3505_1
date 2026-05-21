@@ -41,7 +41,9 @@ def upload_video():
     Thay vì bắt user chờ 3s mới trả về response, nó sẽ phát (Publish) sự kiện vào Queue.
     """
     global event_counter
-    video_data = request.json
+    video_data = request.get_json(silent=True)
+    if not video_data:
+        return jsonify({"error": "Request body must be valid JSON."}), 400
     
     event = {
         "id": event_counter,
